@@ -77,9 +77,21 @@ Google Cloud · Compute Engine · VPC · VPC Firewall Rules · Ubuntu · Cloud S
 - Private connectivity to managed SQL Server
 - Testing SQL permissions and verifying application-level functionality
 
-## Evidence
 
-Lab screenshots can be added under `screenshots/` after reviewing them for sensitive account information, access tokens and credentials.
+## Lab Screenshots
+
+**Cloud Storage FUSE validation**
+
+![Cloud Storage FUSE validation](screenshots/cloud-storage-report-page-33.png)
+
+**Cloud SQL configuration**
+
+![Cloud SQL configuration](screenshots/cloud-sql-report-page-39.png)
+
+**Ubuntu to Cloud SQL connectivity test (TCP 1433)**
+
+![Ubuntu to Cloud SQL connectivity test (TCP 1433)](screenshots/sql-connectivity-report-page-51.png)
+
 
 ---
 
