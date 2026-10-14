@@ -1,7 +1,7 @@
 # Google Cloud Infrastructure Lab
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Google Cloud">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original-wordmark.svg" alt="Google Cloud logo" height="72">
 </p>
 
 
