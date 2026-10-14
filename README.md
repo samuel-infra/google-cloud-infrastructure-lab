@@ -1,13 +1,13 @@
-# ☁️ Google Cloud Infrastructure Lab
+# Google Cloud Infrastructure Lab
 
-![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Compute%20Engine%20%7C%20VPC-4285F4?logo=googlecloud&logoColor=white)
-![Ubuntu](https://img.shields.io/badge/Ubuntu-Linux-E95420?logo=ubuntu&logoColor=white)
-![Cloud SQL](https://img.shields.io/badge/Cloud%20SQL-SQL%20Server-4285F4)
-![Status](https://img.shields.io/badge/Status-Lab_Completed-brightgreen)
+<p align="left">
+  <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Google Cloud">
+</p>
+
 
 > **Hands-on Google Cloud infrastructure project** demonstrating private VM networking, Ubuntu administration, shared Cloud Storage access through FUSE, IAM troubleshooting, and private connectivity to a managed SQL Server database.
 
-## 🎯 Project Summary
+## Project Summary
 
 This repository documents a practical Google Cloud lab for the fictional company **Sweditech AB**. The environment, named **Sweditech-GCP**, combines two Ubuntu Compute Engine virtual machines, a shared Cloud Storage bucket and a managed Cloud SQL for SQL Server instance.
 
@@ -26,13 +26,13 @@ The main goal was to connect these components, verify that the services worked a
 - Verified TCP 1433 reachability and used **sqlcmd** to test the database
 - Created and tested **SweditechDB**
 
-## 🧰 Technology Stack
+## Technology Stack
 
 `Google Cloud` · `Compute Engine` · `VPC` · `VPC Firewall` · `Ubuntu` · `Linux` · `Cloud Storage` · `gcsfuse` · `IAM` · `Cloud SQL` · `SQL Server 2022` · `sqlcmd` · `gcloud CLI`
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
                   Sweditech-GCP
@@ -70,7 +70,7 @@ The main goal was to connect these components, verify that the services worked a
 
 The diagram summarizes the components used in the lab. Cloud Storage is an object-storage service exposed through a FUSE mount, not a traditional shared block disk.
 
-## 🌐 VPC and Virtual Machines
+## VPC and Virtual Machines
 
 A VPC network and subnets were configured for the Google Cloud environment. Two Ubuntu Compute Engine instances were deployed and used for network and storage tests.
 
@@ -90,7 +90,7 @@ VPC firewall rules were configured and the machines were tested using ping over 
 
 A ping test confirms ICMP connectivity, but not database or storage permissions. Those were validated in separate steps.
 
-## 🔐 Network and Access Controls
+## Network and Access Controls
 
 The lab involved two different kinds of access control:
 
@@ -101,7 +101,7 @@ These controls solve different problems. A working network connection does not a
 
 For a production environment, permissions should be limited to the identities and resources that require them, and firewall source ranges should be reviewed carefully.
 
-## 📁 Shared Cloud Storage
+## Shared Cloud Storage
 
 The bucket **sweditech-delad-lagring** was created to provide storage that both Ubuntu VMs could access.
 
@@ -123,7 +123,7 @@ This demonstrated shared access to bucket objects through filesystem-style mount
 
 Cloud Storage is object storage, even when accessed through gcsfuse. Its behavior is not identical to a conventional local filesystem or a Windows SMB share. The lab tested the shared-file workflow required for this exercise.
 
-## 🛠️ IAM Troubleshooting
+## IAM Troubleshooting
 
 During the storage setup, a **Permission denied** error occurred when attempting to write to the mounted bucket.
 
@@ -138,7 +138,7 @@ After reviewing the access configuration, the storage test succeeded.
 
 This was an important part of the project because it showed that storage problems may be caused by identity and permissions rather than networking alone.
 
-## 🗄️ Cloud SQL for SQL Server
+## Cloud SQL for SQL Server
 
 A managed **Cloud SQL for SQL Server 2022 Standard** instance was configured with private network connectivity.
 
@@ -160,7 +160,7 @@ The lab included:
 
 ![Cloud SQL configuration](screenshots/cloud-sql-report-page-39.png)
 
-## 🧪 Connectivity Validation
+## Connectivity Validation
 
 The SQL connectivity test checked TCP 1433 between the Ubuntu VM and the private Cloud SQL endpoint.
 
@@ -170,7 +170,7 @@ A successful port check confirmed that the database endpoint was reachable over 
 
 The private endpoint is intentionally redacted in the public screenshot. The relevant test command, port and result remain visible.
 
-## 🔧 Troubleshooting and Verification
+## Troubleshooting and Verification
 
 Several independent layers were validated in the Google Cloud environment:
 
@@ -187,7 +187,7 @@ The storage permission issue was particularly useful for distinguishing **authen
 
 The project also involved Linux repository configuration troubleshooting while preparing the environment.
 
-## ✅ Validation Checklist
+## Validation Checklist
 
 - [x] Google Cloud project created
 - [x] VPC and firewall rules configured
@@ -202,13 +202,13 @@ The project also involved Linux repository configuration troubleshooting while p
 - [x] SQL connection tested with sqlcmd
 - [x] SweditechDB created and test data verified
 
-## 🛡️ Security Considerations
+## Security Considerations
 
 This is an educational lab, not a production deployment. Production use would require a review of IAM least privilege, service-account permissions, private connectivity, firewall rules, database authentication, logging and backup configuration.
 
 Sensitive addresses and identifying details have been redacted from selected public screenshots. Credentials and access tokens are not intentionally documented here.
 
-## 📚 What I Learned
+## What I Learned
 
 This project provided hands-on experience with Google Cloud networking, Linux virtual machines, shared object storage and managed databases.
 
@@ -216,7 +216,7 @@ The most valuable troubleshooting exercise was resolving storage access problems
 
 The Cloud SQL exercise demonstrated the difference between checking a network port and successfully running SQL commands against a managed database.
 
-## 🚧 Project Status
+## Project Status
 
 **Practical lab completed.** This repository contains selected documentation and screenshots from the original implementation.
 
