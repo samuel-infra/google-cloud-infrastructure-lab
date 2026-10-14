@@ -1,98 +1,225 @@
-# Google Cloud Infrastructure Lab
+# ☁️ Google Cloud Infrastructure Lab
 
 ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Compute%20Engine%20%7C%20VPC-4285F4?logo=googlecloud&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-Linux-E95420?logo=ubuntu&logoColor=white)
 ![Cloud SQL](https://img.shields.io/badge/Cloud%20SQL-SQL%20Server-4285F4)
+![Status](https://img.shields.io/badge/Status-Lab_Completed-brightgreen)
 
-> **Hands-on Google Cloud project:** building private VM networking, shared Cloud Storage mounts and a SQL Server database with connectivity and permissions validation.
+> **Hands-on Google Cloud infrastructure project** demonstrating private VM networking, Ubuntu administration, shared Cloud Storage access through FUSE, IAM troubleshooting, and private connectivity to a managed SQL Server database.
 
-## Project Overview
+## 🎯 Project Summary
 
-This lab documents the **Sweditech-GCP** environment built for the fictional company Sweditech AB. It connects virtual machines, object storage and a managed SQL Server database while testing networking, access control and troubleshooting.
+This repository documents a practical Google Cloud lab for the fictional company **Sweditech AB**. The environment, named **Sweditech-GCP**, combines two Ubuntu Compute Engine virtual machines, a shared Cloud Storage bucket and a managed Cloud SQL for SQL Server instance.
 
-## Architecture
+The main goal was to connect these components, verify that the services worked and troubleshoot issues encountered during the configuration.
 
-```text
-Google Cloud project: Sweditech-GCP
-  |
-  +-- VPC / subnet / firewall rules
-  |     |
-  |     +-- Compute Engine VM01 (Ubuntu)
-  |     +-- Compute Engine VM02 (Ubuntu)
-  |             |
-  |             +-- Private VM-to-VM connectivity
-  |
-  +-- Cloud Storage bucket: sweditech-delad-lagring
-  |     +-- Mounted on both VMs with Cloud Storage FUSE
-  |     +-- Shared-file write/read validation
-  |
-  +-- Cloud SQL: SQL Server 2022 Standard
-        +-- Private IP connectivity
-        +-- SweditechDB
-        +-- sqlcmd connection and query tests
-```
+### Key outcomes
 
-## Technologies
+- Created the Sweditech-GCP project and a VPC network
+- Deployed two Ubuntu virtual machines using Compute Engine
+- Configured VPC firewall rules and tested private VM-to-VM communication
+- Created the Cloud Storage bucket **sweditech-delad-lagring**
+- Mounted the bucket on both VMs using **Cloud Storage FUSE (gcsfuse)**
+- Investigated and resolved a storage **Permission denied** problem
+- Reviewed service-account permissions, IAM and API access configuration
+- Configured **Cloud SQL for SQL Server 2022 Standard** with private connectivity
+- Verified TCP 1433 reachability and used **sqlcmd** to test the database
+- Created and tested **SweditechDB**
 
-Google Cloud · Compute Engine · VPC · VPC Firewall Rules · Ubuntu · Cloud Storage · Cloud Storage FUSE (gcsfuse) · IAM · Cloud SQL for SQL Server · sqlcmd · gcloud CLI
+## 🧰 Technology Stack
 
-## Implementation
-
-### 1. Virtual network and compute
-- Created the Google Cloud project **Sweditech-GCP**.
-- Built a VPC with subnets and deployed two Ubuntu virtual machines.
-- Applied firewall rules and verified VM-to-VM private connectivity with ping.
-
-### 2. Shared Cloud Storage
-- Created the bucket **sweditech-delad-lagring**.
-- Mounted the bucket on both virtual machines using **Cloud Storage FUSE**.
-- Created a test file from VM01 and verified that VM02 could access it.
-
-### 3. Identity and troubleshooting
-- Investigated a **Permission denied** error when writing to the mounted bucket.
-- Checked the VM's service account and IAM permissions.
-- Investigated API access configuration and resolved the storage-access problem.
-
-### 4. Managed SQL Server
-- Configured **Cloud SQL for SQL Server 2022 Standard** with private network access.
-- Connected from the Ubuntu VM using **sqlcmd**.
-- Verified database identity, network reachability on TCP 1433, and SQL permissions.
-- Created, inserted and read test data in **SweditechDB**.
-
-## Validation Results
-
-| Test | Result |
-|---|---|
-| VM01 to VM02 private ping | Successful |
-| Shared Cloud Storage file access | Successful |
-| Ubuntu to Cloud SQL TCP 1433 | Successful |
-| SQL database connection via sqlcmd | Successful |
-| Insert and read test data | Successful |
-
-## What This Project Demonstrates
-
-- Google Cloud VPC networking and Compute Engine administration
-- Cross-VM shared storage using Cloud Storage FUSE
-- Troubleshooting Linux repository configuration and IAM access
-- Private connectivity to managed SQL Server
-- Testing SQL permissions and verifying application-level functionality
-
-
-## Lab Screenshots
-
-**Cloud Storage FUSE validation**
-
-![Cloud Storage FUSE validation](screenshots/cloud-storage-report-page-33.png)
-
-**Cloud SQL configuration**
-
-![Cloud SQL configuration](screenshots/cloud-sql-report-page-39.png)
-
-**Ubuntu to Cloud SQL connectivity test (TCP 1433)**
-
-![Ubuntu to Cloud SQL connectivity test (TCP 1433)](screenshots/sql-connectivity-report-page-51.png)
-
+`Google Cloud` · `Compute Engine` · `VPC` · `VPC Firewall` · `Ubuntu` · `Linux` · `Cloud Storage` · `gcsfuse` · `IAM` · `Cloud SQL` · `SQL Server 2022` · `sqlcmd` · `gcloud CLI`
 
 ---
 
-*Educational infrastructure lab; not a production deployment.*
+## 🏗️ Architecture
+
+```text
+                  Sweditech-GCP
+                        |
+                  VPC / subnet
+                  Firewall rules
+                        |
+            +-----------+-----------+
+            |                       |
+            v                       v
+     Compute Engine VM01     Compute Engine VM02
+          Ubuntu                  Ubuntu
+            |                       |
+            +---- Private VM -------+
+            |     connectivity
+            |
+            +---------+-------------+
+                      |
+                      v
+               Cloud Storage
+           sweditech-delad-lagring
+             Mounted via gcsfuse
+                on both VMs
+
+            Ubuntu VM / sqlcmd
+                      |
+                 Private VPC
+                 TCP port 1433
+                      |
+                      v
+                 Cloud SQL
+           SQL Server 2022 Standard
+                 SweditechDB
+```
+
+The diagram summarizes the components used in the lab. Cloud Storage is an object-storage service exposed through a FUSE mount, not a traditional shared block disk.
+
+## 🌐 VPC and Virtual Machines
+
+A VPC network and subnets were configured for the Google Cloud environment. Two Ubuntu Compute Engine instances were deployed and used for network and storage tests.
+
+### Compute Engine VM01
+
+VM01 was used for connectivity checks, accessing the shared Cloud Storage bucket and working with the Google Cloud services from Linux.
+
+### Compute Engine VM02
+
+VM02 was used as the second machine for private-network and shared-storage validation. Having two instances made it possible to test whether the same bucket contents were accessible from more than one VM.
+
+### Private connectivity
+
+VPC firewall rules were configured and the machines were tested using ping over their private network addresses.
+
+![Ubuntu VM connectivity evidence](screenshots/vm-connectivity-report-page-23.png)
+
+A ping test confirms ICMP connectivity, but not database or storage permissions. Those were validated in separate steps.
+
+## 🔐 Network and Access Controls
+
+The lab involved two different kinds of access control:
+
+1. **VPC firewall rules** for network traffic between Compute Engine instances and the required services
+2. **IAM and service-account permissions** for access to Google Cloud resources such as Cloud Storage
+
+These controls solve different problems. A working network connection does not automatically grant permission to read or write objects in a bucket.
+
+For a production environment, permissions should be limited to the identities and resources that require them, and firewall source ranges should be reviewed carefully.
+
+## 📁 Shared Cloud Storage
+
+The bucket **sweditech-delad-lagring** was created to provide storage that both Ubuntu VMs could access.
+
+Cloud Storage FUSE (**gcsfuse**) was used to mount the bucket into the Linux filesystem on each VM.
+
+### Storage workflow
+
+1. Create the Cloud Storage bucket
+2. Prepare Cloud Storage FUSE on the Ubuntu instances
+3. Mount the bucket on VM01 and VM02
+4. Create a test file from VM01
+5. Verify that VM02 can access the same file
+
+This demonstrated shared access to bucket objects through filesystem-style mounts.
+
+![Cloud Storage FUSE and shared file validation](screenshots/cloud-storage-report-page-33.png)
+
+### Storage design note
+
+Cloud Storage is object storage, even when accessed through gcsfuse. Its behavior is not identical to a conventional local filesystem or a Windows SMB share. The lab tested the shared-file workflow required for this exercise.
+
+## 🛠️ IAM Troubleshooting
+
+During the storage setup, a **Permission denied** error occurred when attempting to write to the mounted bucket.
+
+The troubleshooting involved checking:
+
+- The service account associated with the VM
+- IAM permissions relevant to bucket access
+- API access configuration
+- Whether the mounted storage could be used for the intended write operation
+
+After reviewing the access configuration, the storage test succeeded.
+
+This was an important part of the project because it showed that storage problems may be caused by identity and permissions rather than networking alone.
+
+## 🗄️ Cloud SQL for SQL Server
+
+A managed **Cloud SQL for SQL Server 2022 Standard** instance was configured with private network connectivity.
+
+Unlike SQL Server installed directly on a VM, Cloud SQL is a managed database service. The lab therefore focused on connecting the Ubuntu environment to the database service rather than administering a Windows SQL Server host.
+
+### Database connectivity
+
+The connection was tested from Ubuntu using the SQL Server client tooling and private network access.
+
+TCP port **1433** was used for SQL Server connectivity.
+
+The lab included:
+
+- Checking whether the SQL Server endpoint was reachable
+- Connecting using **sqlcmd**
+- Verifying database access and SQL permissions
+- Creating **SweditechDB**
+- Inserting and retrieving test records
+
+![Cloud SQL configuration](screenshots/cloud-sql-report-page-39.png)
+
+## 🧪 Connectivity Validation
+
+The SQL connectivity test checked TCP 1433 between the Ubuntu VM and the private Cloud SQL endpoint.
+
+A successful port check confirmed that the database endpoint was reachable over the configured network path. The subsequent sqlcmd tests checked that SQL Server could also be accessed at the application level.
+
+![Ubuntu to Cloud SQL connectivity test on TCP 1433](screenshots/sql-connectivity-report-page-51.png)
+
+The private endpoint is intentionally redacted in the public screenshot. The relevant test command, port and result remain visible.
+
+## 🔧 Troubleshooting and Verification
+
+Several independent layers were validated in the Google Cloud environment:
+
+| Area | What was checked |
+|---|---|
+| Compute Engine | Two Ubuntu VMs deployed |
+| VPC networking | Private VM-to-VM ping |
+| Cloud Storage | Bucket mounted on both VMs |
+| Storage permissions | IAM/service-account configuration after Permission denied |
+| Cloud SQL networking | TCP 1433 reachability |
+| SQL Server | sqlcmd connection and database operations |
+
+The storage permission issue was particularly useful for distinguishing **authentication and authorization** from network reachability.
+
+The project also involved Linux repository configuration troubleshooting while preparing the environment.
+
+## ✅ Validation Checklist
+
+- [x] Google Cloud project created
+- [x] VPC and firewall rules configured
+- [x] Two Ubuntu Compute Engine VMs deployed
+- [x] Private VM-to-VM connectivity verified
+- [x] Cloud Storage bucket created
+- [x] Bucket mounted using gcsfuse on both VMs
+- [x] Shared test file accessed across the VMs
+- [x] Storage permission issue investigated and resolved
+- [x] Cloud SQL for SQL Server configured
+- [x] Private TCP 1433 reachability verified
+- [x] SQL connection tested with sqlcmd
+- [x] SweditechDB created and test data verified
+
+## 🛡️ Security Considerations
+
+This is an educational lab, not a production deployment. Production use would require a review of IAM least privilege, service-account permissions, private connectivity, firewall rules, database authentication, logging and backup configuration.
+
+Sensitive addresses and identifying details have been redacted from selected public screenshots. Credentials and access tokens are not intentionally documented here.
+
+## 📚 What I Learned
+
+This project provided hands-on experience with Google Cloud networking, Linux virtual machines, shared object storage and managed databases.
+
+The most valuable troubleshooting exercise was resolving storage access problems by investigating IAM and service-account configuration. It also reinforced why a successful ping or TCP connection does not automatically prove that a user or service has permission to access a resource.
+
+The Cloud SQL exercise demonstrated the difference between checking a network port and successfully running SQL commands against a managed database.
+
+## 🚧 Project Status
+
+**Practical lab completed.** This repository contains selected documentation and screenshots from the original implementation.
+
+---
+
+*Built as a hands-on cloud and infrastructure lab for portfolio and learning purposes.*
